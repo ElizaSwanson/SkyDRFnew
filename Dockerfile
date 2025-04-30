@@ -3,7 +3,7 @@ FROM python:3.12
 
 # Устанавливаем рабочую директорию в контейнере
 WORKDIR /app
-ENV DJANGO_SETTINGS_MODULE=skydrf.config.settings
+ENV DJANGO_SETTINGS_MODULE=skydrfnew.config.settings
 
 # Копируем файл с зависимостями и устанавливаем их
 COPY requirements.txt ./
