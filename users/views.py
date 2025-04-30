@@ -27,7 +27,7 @@ class PaymentList(generics.ListAPIView):
 class UserCreateAPIView(CreateAPIView):
     serializer_class = UserSerializer
     queryset = Users.objects.all()
-    template_name = 'users:login.html'
+    template_name = 'login.html'
 
     def get_permissions(self):
         if self.request.method == "POST":
