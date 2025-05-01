@@ -1,8 +1,6 @@
 from django.contrib import admin
 
-from .models import Course, Lesson, Payment, Users
+from users.models import Users, Payment
 
-admin.site.register(Course)
-admin.site.register(Lesson)
 admin.site.register(Payment)
 admin.site.register(Users)

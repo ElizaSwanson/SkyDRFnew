@@ -1,15 +1,14 @@
-import generics
 from django_filters.rest_framework import DjangoFilterBackend
 from requests import Response
 from rest_framework import viewsets, generics, permissions, status
 from rest_framework import filters
 
 from lms.models import Course, Lesson
-from .models import Payment, Users
-from .serializers import PaymentSerializer, UserSerializer
+from users.models import Payment, Users
+from users.serializers import PaymentSerializer, UserSerializer
 from rest_framework.generics import CreateAPIView
 
-from .utils import create_product_course, create_price, create_product_lesson, create_checkout_session
+from users.utils import create_product_course, create_price, create_product_lesson, create_checkout_session
 
 
 class PaymentList(generics.ListAPIView):

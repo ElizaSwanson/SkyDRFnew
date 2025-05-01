@@ -1,6 +1,5 @@
 import stripe
 import os
-from django.conf import settings
 
 stripe.api_key = os.getenv("STRIPE_KEY")
 
