@@ -8,7 +8,12 @@ from users.models import Payment, Users
 from users.serializers import PaymentSerializer, UserSerializer
 from rest_framework.generics import CreateAPIView
 
-from users.utils import create_product_course, create_price, create_product_lesson, create_checkout_session
+from users.utils import (
+    create_product_course,
+    create_price,
+    create_product_lesson,
+    create_checkout_session,
+)
 
 
 class PaymentList(generics.ListAPIView):
@@ -18,7 +23,8 @@ class PaymentList(generics.ListAPIView):
     filterset_fields = {
         "paid_course": ["exact"],
         "paid_lesson": ["exact"],
-        "payment_method": ["exact"]}
+        "payment_method": ["exact"],
+    }
     ordering_fields = ["payment_date"]
     ordering = ["payment_date"]
 
@@ -26,7 +32,7 @@ class PaymentList(generics.ListAPIView):
 class UserCreateAPIView(CreateAPIView):
     serializer_class = UserSerializer
     queryset = Users.objects.all()
-    template_name = 'login.html'
+    template_name = "login.html"
 
     def get_permissions(self):
         if self.request.method == "POST":
@@ -38,6 +44,7 @@ class UserCreateAPIView(CreateAPIView):
         user.set_password(user.password)
         user.save()
 
+
 class PaymentCreateAPIView(generics.CreateAPIView):
     serializer_class = PaymentSerializer
     queryset = Payment.objects.all()
@@ -45,9 +52,9 @@ class PaymentCreateAPIView(generics.CreateAPIView):
 
     def perform_create(self, serializer):
         global price, product_price
-        product_type = serializer.validated_data['product_type']
-        product_id = serializer.validated_data['product_id']
-        if product_type == 'course':
+        product_type = serializer.validated_data["product_type"]
+        product_id = serializer.validated_data["product_id"]
+        if product_type == "course":
             product = Course.objects.get(id=product_id)
             product_title = product.title
             product_price = product.price
@@ -57,7 +64,7 @@ class PaymentCreateAPIView(generics.CreateAPIView):
             product.stripe_price_id = price.id
             product.save()
 
-        elif product_type == 'lesson':
+        elif product_type == "lesson":
             product = Lesson.objects.get(id=product_id)
             product_title = product.title
             product_price = product.price
@@ -73,6 +80,10 @@ class PaymentCreateAPIView(generics.CreateAPIView):
             user=self.request.user,
             amount=product_price,
             session_id=session.id,
-            payment_link=session.url)
+            payment_link=session.url,
+        )
 
-        return Response({'checkout_url': session.url,'payment_id': payment.id}, status=status.HTTP_201_CREATED)
+        return Response(
+            {"checkout_url": session.url, "payment_id": payment.id},
+            status=status.HTTP_201_CREATED,
+        )

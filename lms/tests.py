@@ -81,4 +81,3 @@ class LessonAPITestCase(APITestCase):
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(response.data["title"], "Test Lesson")
         self.assertEqual(response.data["owner"], self.user.id)
-
